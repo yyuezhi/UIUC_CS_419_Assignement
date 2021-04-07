@@ -3,12 +3,10 @@
 #endif
 #ifndef MESH_H
 #define MESH_H
-#include "tiny_object_loader.h"
 #include "triangle.h"
 #include <fstream>
 #include <algorithm>
-#include "material.h"
-class mesh 
+class mesh //: public hittable
 {
     public: 
        mesh(std::string mesh_name);
@@ -20,17 +18,13 @@ class mesh
        std::vector<vec3> verticesnormal;
        std::vector<vec3> facesnormal;
        std::string meshname;
-       //default mesh material
-       material matter = material(color(0.3 ,0.3 ,0.2) ,color(0.50754 ,0.50754 ,0.50754),color(0.508273 ,0.508273 ,0.508273),1.5);
 };
 
-//construct which read a mesh in obj format
 mesh::mesh(std::string mesh_name){
     meshname = mesh_name;
     std::string line, lead_char, x,y,z;
     std::ifstream MyReadFile(mesh_name);
     vertices.push_back(point3(0,0,0));
-    //read the vertices and faces
     while (getline (MyReadFile, line)) {
         std::istringstream temp_stream(line);
         temp_stream >> lead_char >>x >>y>>z;
@@ -52,8 +46,6 @@ mesh::mesh(std::string mesh_name){
     auto nvertices = vertices.size();
     vec3 v1,v2,v3,e1,e2,n;
     double area;
-
-    //calculate face normal vector, wieght by triangle area
     for (int i=0;i<nfaces;i++){
         v1 = vertices[faces[3*i]];
         v2 = vertices[faces[3*i+1]];
@@ -63,8 +55,7 @@ mesh::mesh(std::string mesh_name){
         n = cross(e1,e2);
         facesnormal.push_back(n/2);
     }
-    //calculate vertice normal based on triangle weighting
-    std::cout<<"calculate surface normal vector"<<std::endl;
+    std::cout<<"calculate surface vector"<<std::endl;
     verticesnormal.push_back(point3(0,0,0));
     for (int i=1;i<nvertices;i++){
         int found_time = 0;

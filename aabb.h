@@ -3,17 +3,14 @@
 
 #include "rtweekend.h"
 
-//this is the class structure for Axis-aligned bounding boxes
 class aabb {
     public:
         aabb() {}
         aabb(const point3& a, const point3& b) { minimum = a; maximum = b;}
 
-        //minimal and maximum point out of 8 vertices of  boxes
         point3 min() const {return minimum; }
         point3 max() const {return maximum; }
-        
-        //check whether such box is hit
+
         inline bool hit(const ray& r, double t_min, double t_max) const {
             for (int a = 0; a < 3; a++) {
                 auto invD = 1.0f / r.direction()[a];
@@ -28,13 +25,11 @@ class aabb {
             }
             return true;
         }
-        
-        //minimal and maximum point out of 8 vertices of  boxes
+
         point3 minimum;
         point3 maximum;
 };
 
-//merge two bounding boxes to get a larger bounding box
 aabb surrounding_box(aabb box0, aabb box1) {
     point3 small(fmin(box0.min().x(), box1.min().x()),
                  fmin(box0.min().y(), box1.min().y()),

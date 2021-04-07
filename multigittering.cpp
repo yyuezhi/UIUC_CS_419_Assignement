@@ -19,8 +19,7 @@ inline bool operator==(const jitter_coordinate &a, const jitter_coordinate &b)
     }
 }
 
-//this function takes the size of fine and rough grid
-//and return the coordinate of the sampled grid
+
 std::vector <jitter_coordinate> multigittering_grid_generator(int fine_size, int rough_size)
 {
     // candidate contain the remaining grid which sample point could lie on
@@ -92,7 +91,6 @@ std::vector <jitter_coordinate> multigittering_grid_generator(int fine_size, int
         std::cout<<"fatal problem on multijittering"<<std::endl;
         exit(1);
     }
-    //sample the last one
     sample_index = random_int(0,candidate.size()-1);
     sample_result.push_back(candidate[sample_index]);
     return sample_result;

@@ -11,13 +11,13 @@ public:
     // triangle(std::vector <point3> ps, material m, double e = 1e-5) : point_set(ps), mater(m), epsilon(e){
     //     find_outward_normal(point_set);
     // }
-    triangle(point3 a,point3 b, point3 c, material m ,double e = 1e-5) : mater(m), epsilon(e){
+    triangle(point3 a,point3 b, point3 c,double e = 1e-5) :  epsilon(e){
         point_set.push_back(a);
         point_set.push_back(b);
         point_set.push_back(c);
         find_outward_normal(point_set);
     }
-    triangle(point3 a,point3 b, point3 c,vec3 n, vec3 p, vec3 q, material m ,double e = 1e-5) : mater(m), epsilon(e){
+    triangle(point3 a,point3 b, point3 c,vec3 n, vec3 p, vec3 q,double e = 1e-5) :  epsilon(e){
         point_set.push_back(a);
         point_set.push_back(b);
         point_set.push_back(c);
@@ -52,7 +52,6 @@ public:
 public:
     std::vector <point3> point_set;
     std::vector <vec3> outward_normal;
-    material mater;
     double epsilon;  // the epsilon for hit detection
 };
 
@@ -110,7 +109,6 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec)
         //triangular interpolation here
         auto normal = (1 - ret.u - ret.v) * outward_normal[0] + ret.u * outward_normal[1] + ret.v * outward_normal[2];
         rec.normal = normal;
-        rec.hit_material = mater;
 
         return true;
     }
@@ -118,8 +116,6 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec)
     return false;
 }
 
-//generate the bounding boxes for triangle
-//return true if generateation is successful
 bool triangle::bounding_box( aabb& output_box) const {
     double max_x = -infinity, min_x = infinity, max_y = -infinity , min_y = infinity,
                   max_z = -infinity,min_z = infinity;

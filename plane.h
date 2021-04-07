@@ -3,7 +3,6 @@
 #include "hittable.h"
 #include "vec3.h"
 #include <iostream>
-//class structure for plane
 class plane : public hittable
 {
 public:
@@ -20,7 +19,6 @@ public:
     double epsilon;  // the epsilon for hit detection
 };
 
-//decide whehter the plane is being hit
 bool plane::hit(const ray &r, double t_min, double t_max, hit_record &rec)
     const
 {

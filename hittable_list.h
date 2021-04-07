@@ -1,7 +1,7 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 #include "hittable.h"
-#include "mesh.h"
+//#include "mesh.h"
 #include <memory>
 #include <vector>
 #include "aabb.h"
@@ -20,7 +20,7 @@ public:
 
     //add hitable object to the list
     void add(shared_ptr<hittable> object) { objects.push_back(object); }
-    void add(mesh m);
+    //void add(mesh m);
     virtual bool hit(
         const ray &r, double t_min, double t_max, hit_record &rec) const
         override;
@@ -30,15 +30,14 @@ public:
     std::vector<shared_ptr<hittable>> objects;
 };
 
-//add the primitives in the mesh structure to the hittalbe list
-void hittable_list::add (mesh m){
-    for (int i=0;i<m.faces.size()/3;i++){
-        objects.push_back(make_shared<triangle>(m.vertices[m.faces[3*i]], m.vertices[m.faces[3*i + 1]] , m.vertices[m.faces[3*i + 2]]
-        ,m.verticesnormal[m.faces[3*i]], m.verticesnormal[m.faces[3*i + 1]] , m.verticesnormal[m.faces[3*i + 2]],m.matter));
-    }
-}
+// void hittable_list::add (mesh m){
+//     for (int i=0;i<m.faces.size()/3;i++){
+//         objects.push_back(make_shared<triangle>(m.vertices[m.faces[3*i]], m.vertices[m.faces[3*i + 1]] , m.vertices[m.faces[3*i + 2]]
+//         ,m.verticesnormal[m.faces[3*i]], m.verticesnormal[m.faces[3*i + 1]] , m.verticesnormal[m.faces[3*i + 2]],m.matter));
+//     }
+// }
 
-//This function check whether at least one of the object in the hittable list is being hit 
+//this function check whether at least one of the object in the hittable list is being hit 
 //by the ray r with range (t_min,t_max), return boolean value
 bool hittable_list::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
 {
@@ -57,9 +56,6 @@ bool hittable_list::hit(const ray &r, double t_min, double t_max, hit_record &re
     return hit_anything;
 }
 
-//construct the bounding boxs for all the primitives in the list
-//return boolean indicating whether such bounding boxes is succesfully
-//constructed
 bool hittable_list::bounding_box( aabb& output_box) const {
     if (objects.empty()) return false;
 
